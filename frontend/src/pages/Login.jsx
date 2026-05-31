@@ -17,12 +17,13 @@ function Login() {
     try {
       const res = await authApi.post("/login", form);
 
-      // Save token + user
+      // Save auth data
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
       alert("Login successful");
 
+      // Redirect once
       window.location.href = "/";
     } catch (error) {
       console.log(error);

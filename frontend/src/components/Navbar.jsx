@@ -1,14 +1,29 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+
 function Navbar() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    setUser(storedUser);
+  }, []);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.href = "/login";
+  };
+
   return (
     <div style={styles.navbar}>
       
-      {/* LEFT - BRAND */}
+      {/* BRAND */}
       <div style={styles.brand}>
         Institution Management System
       </div>
 
-      {/* CENTER - LINKS */}
+      {/* LINKS */}
       <div style={styles.links}>
         <Link to="/" style={styles.link}>Dashboard</Link>
         <Link to="/students" style={styles.link}>Students</Link>
@@ -17,9 +32,22 @@ function Navbar() {
         <Link to="/departments" style={styles.link}>Departments</Link>
       </div>
 
-      {/* RIGHT - USER AREA */}
+      {/* USER AREA */}
       <div style={styles.user}>
-        Admin | Logout
+        {user ? (
+          <>
+            <span style={{ marginRight: "10px" }}>
+              Welcome, {user.username}
+            </span>
+            <button onClick={logout} style={styles.button}>
+              Logout
+            </button>
+          </>
+        ) : (
+          <Link to="/login" style={styles.link}>
+            Login
+          </Link>
+        )}
       </div>
 
     </div>
@@ -53,8 +81,19 @@ const styles = {
   },
 
   user: {
+    display: "flex",
+    alignItems: "center",
     fontSize: "14px",
     color: "#cbd5e1"
+  },
+
+  button: {
+    backgroundColor: "red",
+    color: "white",
+    border: "none",
+    padding: "5px 10px",
+    cursor: "pointer",
+    borderRadius: "4px"
   }
 };
 

@@ -1,31 +1,55 @@
-import { Routes, Route } from "react-router-dom";
-
-import Navbar from "./components/Navbar";
-import Sidebar from "./components/Sidebar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Dashboard from "./pages/Dashboard";
 import Students from "./pages/Students";
 import Staff from "./pages/Staff";
 import Courses from "./pages/Courses";
 import Departments from "./pages/Departments";
+import Login from "./pages/Login";
+
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
-    <div style={{ display: "flex" }}>
-      <Sidebar />
+    <BrowserRouter>
+      <Routes>
 
-      <div style={{ flex: 1 }}>
-        <Navbar />
+        {/* PUBLIC ROUTE */}
+        <Route path="/login" element={<Login />} />
 
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/students" element={<Students />} />
-          <Route path="/staff" element={<Staff />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/departments" element={<Departments />} />
-        </Routes>
-      </div>
-    </div>
+        {/* PROTECTED ROUTES */}
+        <Route path="/" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/students" element={
+          <ProtectedRoute>
+            <Students />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/staff" element={
+          <ProtectedRoute>
+            <Staff />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/courses" element={
+          <ProtectedRoute>
+            <Courses />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/departments" element={
+          <ProtectedRoute>
+            <Departments />
+          </ProtectedRoute>
+        } />
+
+      </Routes>
+    </BrowserRouter>
   );
 }
 
