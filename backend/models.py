@@ -23,7 +23,23 @@ class Student(db.Model):
 
 
 # =========================
-# STAFF MODEL
+# DEPARTMENT MODEL (FIXED)
+# =========================
+class Department(db.Model):
+    __tablename__ = "departments"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), unique=True, nullable=False)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }
+
+
+# =========================
+# STAFF MODEL (FIXED)
 # =========================
 class Staff(db.Model):
     __tablename__ = "staff"
@@ -33,16 +49,18 @@ class Staff(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
 
     department_id = db.Column(db.Integer, db.ForeignKey("departments.id"))
-
-    department = db.relationship("Department", backref="staff")
+    department = db.relationship("Department")
 
     def to_dict(self):
         return {
             "id": self.id,
             "full_name": self.full_name,
             "email": self.email,
+            "department_id": self.department_id,
             "department": self.department.name if self.department else None
         }
+
+
 # =========================
 # COURSE MODEL
 # =========================
@@ -59,21 +77,20 @@ class Course(db.Model):
             "course_name": self.course_name,
             "course_code": self.course_code
         }
-    ### ========================###
-    ### DEPARTMENT MODEL
-    ### ========================###
-class Department(db.Model):
-    __tablename__ = "departments"
+    ##=========================
+    # USER MODEL
+    ##=========================
+class User(db.Model):
+    __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=True, nullable=False)
-
-
-    department_id = db.Column(db.Integer, db.ForeignKey("departments.id"))
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(200), nullable=False)
+    role = db.Column(db.String(20), default="admin")
 
     def to_dict(self):
         return {
             "id": self.id,
-            "name": self.name
-        }
-   
+            "username": self.username,
+            "role": self.role
+        }    
