@@ -2,6 +2,7 @@ import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import Students from "./pages/Students";
 import Staff from "./pages/Staff";
+import Courses from "./pages/Courses";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       {/* TEMP: show students page */}
       <Students />
       <Staff />
+      <Courses />
     </div>
   );
 }
