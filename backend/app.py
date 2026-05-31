@@ -4,6 +4,8 @@ from models import db
 from routes.student_routes import student_bp 
 from routes.course_routes import course_bp
 from routes.staff_routes import staff_bp
+from routes.department_routes import department_bp  
+
 
 app = Flask(__name__)
 CORS(app)
@@ -17,7 +19,8 @@ db.init_app(app)
 
 app.register_blueprint(student_bp, url_prefix="/api")
 app.register_blueprint( course_bp, url_prefix="/api")
-app.register_blueprint( staff_bp, url_prefix="/api")    
+app.register_blueprint( staff_bp, url_prefix="/api") 
+app.register_blueprint(department_bp, url_prefix="/api")   
 @app.route('/')
 def home():
     return {
