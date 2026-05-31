@@ -24,7 +24,7 @@ function Login() {
       alert("Login successful");
 
       // Redirect once
-      window.location.href = "/";
+     window.location.href = "/dashboard";
     } catch (error) {
       console.log(error);
       alert("Invalid credentials");

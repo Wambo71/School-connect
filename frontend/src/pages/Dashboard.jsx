@@ -1,55 +1,66 @@
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 
- function Dashboard() {
+function Dashboard() {
   const navigate = useNavigate();
 
   return (
-    <div style={{ padding: "20px" }}>
-      
-      {/* HEADER */}
-      <h1 style={{ fontSize: "30px", fontWeight: "800", color: "#0f172a" }}>
-        Institution Management Portal
-      </h1>
+    <>
+      {/* TOP NAVBAR */}
+      <Navbar />
 
-      <p style={{ color: "#64748b", marginBottom: "20px" }}>
-        Admin dashboard for managing academic operations and resources
-      </p>
+      {/* MAIN LAYOUT */}
+      <div style={{ display: "flex" }}>
+        
+        {/* SIDEBAR */}
+        <Sidebar />
 
-      {/* DASHBOARD CARDS */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(2, 1fr)",
-          gap: "15px"
-        }}
-      >
+        {/* MAIN CONTENT */}
+        <div style={{ flex: 1, padding: "20px" }}>
 
-        {/* STUDENTS */}
-        <div style={cardStyle} onClick={() => navigate("/students")}>
-          <h3>Students</h3>
-          <p>Manage student records</p>
+          {/* HEADER */}
+          <h1 style={{ fontSize: "30px", fontWeight: "800", color: "#0f172a" }}>
+            Institution Management Portal
+          </h1>
+
+          <p style={{ color: "#64748b", marginBottom: "20px" }}>
+            Admin dashboard for managing academic operations and resources
+          </p>
+
+          {/* DASHBOARD CARDS */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, 1fr)",
+              gap: "15px"
+            }}
+          >
+
+            <div style={cardStyle} onClick={() => navigate("/students")}>
+              <h3>Students</h3>
+              <p>Manage student records</p>
+            </div>
+
+            <div style={cardStyle} onClick={() => navigate("/staff")}>
+              <h3>Staff</h3>
+              <p>Manage teaching & admin staff</p>
+            </div>
+
+            <div style={cardStyle} onClick={() => navigate("/courses")}>
+              <h3>Courses</h3>
+              <p>Manage academic programs</p>
+            </div>
+
+            <div style={cardStyle} onClick={() => navigate("/departments")}>
+              <h3>Departments</h3>
+              <p>Manage school departments & structure</p>
+            </div>
+
+          </div>
         </div>
-
-        {/* STAFF */}
-        <div style={cardStyle} onClick={() => navigate("/staff")}>
-          <h3>Staff</h3>
-          <p>Manage teaching & admin staff</p>
-        </div>
-
-        {/* COURSES */}
-        <div style={cardStyle} onClick={() => navigate("/courses")}>
-          <h3>Courses</h3>
-          <p>Manage academic programs</p>
-        </div>
-
-        {/* DEPARTMENTS (NEW ADDITION) */}
-        <div style={cardStyle} onClick={() => navigate("/departments")}>
-          <h3>Departments</h3>
-          <p>Manage school departments & structure</p>
-        </div>
-
       </div>
-    </div>
+    </>
   );
 }
 
