@@ -1,7 +1,7 @@
 import { useState } from "react";
 import authApi from "../services/authApi";
 
-function Login() {
+function Register() {
   const [form, setForm] = useState({
     username: "",
     password: ""
@@ -15,24 +15,20 @@ function Login() {
     e.preventDefault();
 
     try {
-      const res = await authApi.post("/login", form);
+      await authApi.post("/register", form);
 
-      // Save token + user
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      alert("Account created successfully");
 
-      alert("Login successful");
-
-      window.location.href = "/";
+      window.location.href = "/login";
     } catch (error) {
       console.log(error);
-      alert("Invalid credentials");
+      alert("Registration failed");
     }
   };
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2>Login</h2>
+      <h2>Register</h2>
 
       <form onSubmit={handleSubmit}>
         <input
@@ -50,10 +46,10 @@ function Login() {
           required
         />
 
-        <button type="submit">Login</button>
+        <button type="submit">Register</button>
       </form>
     </div>
   );
 }
 
-export default Login;
+export default Register;
