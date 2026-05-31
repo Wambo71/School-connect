@@ -30,7 +30,7 @@ function Sidebar() {
           Courses
         </Link>
 
-        <Link style={{ color: "white" }} to="/      departments">
+        <Link style={{ color: "white" }} to="/departments">
           Departments
         </Link>
       </nav>
