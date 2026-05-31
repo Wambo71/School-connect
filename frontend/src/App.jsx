@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import Students from "./pages/Students";
 import Staff from "./pages/Staff";
 import Courses from "./pages/Courses";
+import Departments from "./pages/Departments";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/students" element={<Students />} />
           <Route path="/staff" element={<Staff />} />
           <Route path="/courses" element={<Courses />} />
+          <Route path="/departments" element={<Departments />} />
         </Routes>
       </div>
     </div>
