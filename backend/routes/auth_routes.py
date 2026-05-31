@@ -12,18 +12,36 @@ auth_bp = Blueprint("auth_bp", __name__)
 def register():
     data = request.get_json()
 
-    hashed_password = generate_password_hash(data["password"])
+    username = data.get("username")
+    password = data.get("password")
+    role = data.get("role", "staff")
+
+    if not username or not password:
+        return jsonify({
+            "message": "Username and password are required"
+        }), 400
+
+    existing_user = User.query.filter_by(username=username).first()
+
+    if existing_user:
+        return jsonify({
+            "message": "Username already exists"
+        }), 400
+
+    hashed_password = generate_password_hash(password)
 
     new_user = User(
-        username=data["username"],
+        username=username,
         password=hashed_password,
-        role=data.get("role", "admin")
+        role=role
     )
 
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify({"message": "User created successfully"}), 201
+    return jsonify({
+        "message": "User registered successfully"
+    }), 201
 
 
 # =========================
@@ -31,20 +49,33 @@ def register():
 # =========================
 @auth_bp.route("/login", methods=["POST"])
 def login():
+
     data = request.get_json()
 
-    user = User.query.filter_by(username=data["username"]).first()
+    username = data.get("username")
+    password = data.get("password")
 
-    if not user or not check_password_hash(user.password, data["password"]):
-        return jsonify({"message": "Invalid credentials"}), 401
+    user = User.query.filter_by(username=username).first()
 
-    token = create_access_token(identity={
-        "id": user.id,
-        "username": user.username,
-        "role": user.role
-    })
+    if not user:
+        return jsonify({
+            "message": "Invalid credentials"
+        }), 401
+
+    if not check_password_hash(user.password, password):
+        return jsonify({
+            "message": "Invalid credentials"
+        }), 401
+
+    token = create_access_token(
+        identity=str(user.id),
+        additional_claims={
+            "username": user.username,
+            "role": user.role
+        }
+    )
 
     return jsonify({
         "token": token,
         "user": user.to_dict()
-    })
+    }), 200
