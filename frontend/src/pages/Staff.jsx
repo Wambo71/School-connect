@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import api from "../services/api";
+import api from "../services/api"
 
- function Staff() {
+function Staff() {
   const [staff, setStaff] = useState([]);
+  const [departments, setDepartments] = useState([]);
 
   const [form, setForm] = useState({
     full_name: "",
     email: "",
-    department: ""
+    department_id: ""
   });
 
   const [isEditing, setIsEditing] = useState(false);
@@ -25,8 +26,21 @@ import api from "../services/api";
     }
   };
 
+  // =========================
+  // FETCH DEPARTMENTS
+  // =========================
+  const fetchDepartments = async () => {
+    try {
+      const res = await api.get("/departments");
+      setDepartments(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchStaff();
+    fetchDepartments();
   }, []);
 
   // =========================
@@ -57,7 +71,7 @@ import api from "../services/api";
       setForm({
         full_name: "",
         email: "",
-        department: ""
+        department_id: ""
       });
 
       fetchStaff();
@@ -73,7 +87,7 @@ import api from "../services/api";
     setForm({
       full_name: member.full_name,
       email: member.email,
-      department: member.department
+      department_id: member.department_id || ""
     });
 
     setIsEditing(true);
@@ -116,14 +130,21 @@ import api from "../services/api";
           required
         />
 
-        <input
-          type="text"
-          name="department"
-          placeholder="Department"
-          value={form.department}
+        {/* ================= DEPARTMENT DROPDOWN ================= */}
+        <select
+          name="department_id"
+          value={form.department_id}
           onChange={handleChange}
           required
-        />
+        >
+          <option value="">Select Department</option>
+
+          {departments.map((dept) => (
+            <option key={dept.id} value={dept.id}>
+              {dept.name}
+            </option>
+          ))}
+        </select>
 
         <button type="submit">
           {isEditing ? "Update Staff" : "Add Staff"}
@@ -134,7 +155,11 @@ import api from "../services/api";
             type="button"
             onClick={() => {
               setIsEditing(false);
-              setForm({ full_name: "", email: "", department: "" });
+              setForm({
+                full_name: "",
+                email: "",
+                department_id: ""
+              });
             }}
             style={{ marginLeft: "10px" }}
           >
@@ -182,4 +207,4 @@ import api from "../services/api";
   );
 }
 
-export default Staff;   
+export default Staff;
