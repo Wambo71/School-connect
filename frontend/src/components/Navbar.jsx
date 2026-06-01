@@ -5,7 +5,12 @@ function Navbar() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    let storedUser = null;
+    try {
+      storedUser = JSON.parse(localStorage.getItem("user"));
+    } catch {
+      storedUser = null;
+    }
     setUser(storedUser);
   }, []);
 

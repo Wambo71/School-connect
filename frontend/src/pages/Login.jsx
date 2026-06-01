@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import authApi from "../services/authApi";
 
 function Login() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     username: "",
     password: ""
@@ -22,9 +24,7 @@ function Login() {
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
       alert("Login successful");
-
-      // Redirect once
-     window.location.href = "/dashboard";
+      navigate("/dashboard");
     } catch (error) {
       console.log(error);
       alert("Invalid credentials");
