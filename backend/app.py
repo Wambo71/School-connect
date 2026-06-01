@@ -1,7 +1,7 @@
+import os
 from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
-from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 from models import db, Department
 
 # =========================
@@ -13,10 +13,10 @@ CORS(app, resources={r"/api/*": {"origins": "https://school-connect-4.onrender.c
 # =========================
 # CONFIG
 # =========================
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///institution.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///institution.db').replace('postgres://', 'postgresql://')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-app.config["JWT_SECRET_KEY"] = "super-secret-key"
+app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY", "super-secret-key")
 
 # =========================
 # INIT EXTENSIONS
