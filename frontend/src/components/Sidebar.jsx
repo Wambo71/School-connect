@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 
 function Sidebar() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  let user = null;
+  try {
+    user = JSON.parse(localStorage.getItem("user"));
+  } catch {
+    user = null;
+  }
 
   const role = user?.role;
 
