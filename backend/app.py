@@ -8,7 +8,7 @@ from models import db, Department
 # INIT APP
 # =========================
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app, resources={r"/api/*": {"origins": "https://school-connect-4.onrender.com"}})
 
 # =========================
 # CONFIG
